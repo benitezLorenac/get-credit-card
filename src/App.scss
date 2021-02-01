@@ -1,0 +1,47 @@
+@import "~bootstrap/scss/bootstrap";
+body{
+    font-family: 'Montserrat', sans-serif;
+}
+.layout{
+    background-color: #0d5883;
+    padding: 65px 60px;
+    .app{
+        padding: 40px;
+        background-color: #044166;
+        font-family: 'Montserrat', sans-serif;
+        h2{
+            color: white;
+            font-weight: 700;
+            text-align: center;
+            padding-bottom: 40px;
+        }
+        .content{
+            padding-bottom: 30px;
+            span{
+                color: white;
+                font-size: 20px;
+            }
+            input{
+                background-color: #044166;
+                border: 1px solid white;
+                color: white;
+                border-radius: 0;
+                text-align: center;
+                font-weight: 700;
+                font-size: 20px;
+            }
+        }
+        .cuotaFija{
+            background-color: #043a5b;
+            span{
+                display: table-cell;
+            }
+            input{
+                font-weight: 700;
+                font-size: 30px;
+                border: 0;
+                background-color: #043a5b;
+            }
+        }
+    }
+}
