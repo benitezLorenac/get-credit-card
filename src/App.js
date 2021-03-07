@@ -1,75 +1,79 @@
-import React, {useState} from 'react';
-import "./App.scss";
-import Slider from "rc-slider";
+import React, {useState, useContext} from "react";
+import {creditoContext} from "./contexts/credito_context";
 import "rc-slider/assets/index.css";
+import "./App.scss";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import {MIN_AMOUNT, MAX_AMOUNT} from "./constants";
+import Button from "react-bootstrap/Button";
+import DisplayCuotaFija from "./components/DisplayCuotaFija";
+import RangeSelectorPlazo from "./components/RangeSelectorPlazo";
+import RangeSelectorMontoTotal from "./components/RangeSelectorMontoTotal";
+import DetailCuota from "./components/DetailCuota";
+import Checkout from "./components/Checkout";
+import styled from "styled-components";
+import {PATH_DETALLE_CUOTAS, PATH_SIMULADOR, PATH_CREDITO} from "./routes";
 
-const App= ()=> {
-  const [value, setValue] = useState(MIN_AMOUNT);
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 
-  const onChangeHandler = event => {
-    setValue(event.target.value);
-  };
+import ToogleLink from "./components/ToggleLink";
 
-  //funcion para el slider, como no es un componente controlado no puedo usar el e.target.value
-  const onChangeSliderHandler = (newValue) => {   
-    setValue(newValue);
-  }
+const App = () => {
+  const valorContext = useContext(creditoContext);
+  const BotonCompra = styled(Button)`
+    font-size: 30px;
+
+    &:hover {
+      background-color: green !important;
+    }
+  `;
 
   return (
-    <Container>
-      <Row sm={10}>
-        <Col>
-          <div className="layout">
-            <div className="app">
-              <h2>Simulá tu crédito</h2>
-              <div className="content">
-                <Row className={"row-no-gutters"}>
-                  <Col sm={6}>
-                    <span>MONTO TOTAL</span>
-                  </Col>
-                  <Col sm={6} className={"text-right"}>
-                    <input
-                      className={"my-md-0"}
-                      value={value}
-                      onChange={onChangeHandler}
-                      onBlur={onChangeHandler}
+    <Router>
+      <Switch>
+        <Container>
+          <Row sm={10}>
+            <Col>
+              <div className="layout">
+                <div className="app">
+                  <Route path={PATH_SIMULADOR}>
+                    <h2>Simulá tu crédito</h2>
+
+                    <RangeSelectorMontoTotal />
+                    <RangeSelectorPlazo />
+
+                    <DisplayCuotaFija />
+                  </Route>
+                  <Route path={PATH_DETALLE_CUOTAS}>
+                    <DetailCuota
+                      plazo={valorContext.plazo}
+                      intervalo={15}
+                      title={"Detalle de las cuotas"}
                     />
-                  </Col>
-                </Row>
-                <Row>
-                  <Col>
-                  <Slider 
-                    min={MIN_AMOUNT}
-                    max={MAX_AMOUNT}
-                    step={100}
-                    value={value}
-                    onChange={onChangeSliderHandler}
-                  />
-                  </Col>
-                </Row>
-                <Row>
-                  <Col>
-                    <span>
-                      $ {MIN_AMOUNT}
-                    </span>
-                  </Col>
-                  <Col className="text-right">
-                    <span>
-                      $ {MAX_AMOUNT}
-                    </span>
-                  </Col>
-                </Row>
+                  </Route>
+                  <Route path={PATH_CREDITO}>
+                    {" "}
+                    <Checkout />{" "}
+                  </Route>
+                </div>
               </div>
-            </div>
-          </div>
-        </Col>
-      </Row>
-    </Container>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <BotonCompra>OBTENÉ CRÉDITO</BotonCompra>
+            </Col>
+            <Col>
+              <ToogleLink
+                ruta1={{url: "/detalle", label: "Ver detalle"}}
+                ruta2={{url: "/simulador", label: "ver simulador"}}
+              />
+            </Col>
+          </Row>
+        </Container>
+      </Switch>
+    </Router>
   );
-}
+};
 
 export default App;
