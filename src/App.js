@@ -1,4 +1,4 @@
-import React, {useState, useContext} from "react";
+import React, {useContext} from "react";
 import {creditoContext} from "./contexts/credito_context";
 import "rc-slider/assets/index.css";
 import "./App.scss";
@@ -66,7 +66,7 @@ const App = () => {
             <Col>
               <ToogleLink
                 ruta1={{url: "/detalle", label: "Ver detalle"}}
-                ruta2={{url: "/simulador", label: "ver simulador"}}
+                ruta2={{url: "/", label: "ver simulador"}}
               />
             </Col>
           </Row>
